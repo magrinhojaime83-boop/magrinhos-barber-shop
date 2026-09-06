@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Magrinhos Barber Shop | Lagos - Algarve</title>
+<meta name="description" content="Magrinhos Barber Shop em Lagos, Algarve. Cortes masculinos, barba, corte + barba e serviço ao domicílio em Lagos e arredores, mediante confirmação.">
+<meta name="theme-color" content="#050505">
+<style>
+:root{--bg:#050505;--panel:#101012;--line:#303034;--red:#ef171d;--red2:#ff3037;--white:#fff;--muted:#c7c7ca;--green:#21d366}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--white);font-family:Arial,Helvetica,sans-serif;line-height:1.45;overflow-x:hidden}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+.wrap{width:min(1180px,calc(100% - 32px));margin:auto}
+
+/* HERO */
+.hero{
+  position:relative;
+  overflow:hidden;
+  border-bottom:1px solid rgba(239,23,29,.45);
+  background:#050505;
+  padding-bottom:28px;
+}
+.hero::after{
+  content:"";
+  position:absolute;inset:auto 0 0;
+  height:140px;
+  background:linear-gradient(180deg,transparent,#050505);
+  pointer-events:none;
+}
+.topbar{
+  position:relative;z-index:3;
+  min-height:104px;
+  display:grid;
+  grid-template-columns:245px 1fr auto;
+  align-items:center;
+  gap:26px;
+}
+.logo img{width:225px;height:106px;object-fit:contain;filter:drop-shadow(0 8px 20px rgba(0,0,0,.5))}
+.nav{display:flex;justify-content:center;align-items:center;gap:28px}
+.nav button,.nav a{
+  border:0;background:transparent;color:#fff;
+  padding:29px 2px 20px;
+  border-bottom:3px solid transparent;
+  text-transform:uppercase;font-size:12px;font-weight:900;
+}
+.nav button:first-child{color:var(--red2);border-color:var(--red)}
+.nav button:hover,.nav a:hover{color:var(--red2);border-color:var(--red)}
+.top-actions{display:flex;align-items:center;gap:9px}
+.icon-link{
+  width:44px;height:44px;border-radius:50%;
+  display:grid;place-items:center;
+  border:1px solid rgba(255,255,255,.28);
+  background:rgba(0,0,0,.30);
+  font-size:20px;
+}
+.icon-link.wa{color:var(--green)}
+.top-book{
+  border:0;border-radius:9px;min-height:46px;padding:0 18px;
+  color:#fff;background:linear-gradient(180deg,#ff3037,#cf070d);
+  text-transform:uppercase;font-weight:900;
+}
+.mobile-menu{display:none}
+
+.hero-stage{
+  position:relative;
+  z-index:2;
+  display:grid;
+  gap:18px;
+  padding:8px 0 0;
+}
+.hero-visual{
+  border-radius:22px;
+  overflow:hidden;
+  border:1px solid rgba(239,23,29,.28);
+  background:#080809;
+  box-shadow:0 24px 70px rgba(0,0,0,.45);
+}
+.hero-visual picture,.hero-visual img{display:block;width:100%}
+.hero-visual img{height:auto}
+.hero-buttons{display:flex;gap:11px;flex-wrap:wrap;justify-content:flex-start}
+.hero-buttons button,.hero-buttons a{
+  min-height:53px;padding:0 19px;border-radius:8px;
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  text-transform:uppercase;font-weight:900;font-size:13px;
+}
+.btn-dark{background:rgba(5,5,6,.8);border:1px solid rgba(255,255,255,.55);color:#fff}
+.btn-red{background:linear-gradient(180deg,#ff3037,#d1070d);border:0;color:#fff}
+.btn-wa{background:rgba(5,5,6,.8);border:1px solid rgba(255,255,255,.55);color:#fff}
+.btn-wa b{color:var(--green);font-size:18px}
+.eyebrow{color:#ff3b42;letter-spacing:.18em;text-transform:uppercase;font-size:12px;font-weight:900;margin-bottom:12px}
+
+/* FOUR FEATURE BUTTONS */
+.features{background:#080809;border-bottom:1px solid rgba(239,23,29,.45)}
+.feature-grid{display:grid;grid-template-columns:repeat(4,1fr);min-height:152px}
+.feature{
+  border:0;border-right:1px solid rgba(239,23,29,.42);
+  background:transparent;color:#fff;padding:26px 22px;
+  display:flex;align-items:center;gap:14px;text-align:left;
+}
+.feature:last-child{border-right:0}
+.feature:hover{background:#111113}
+.feature-icon{
+  width:54px;height:54px;flex:0 0 54px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.62);display:grid;place-items:center;font-size:22px
+}
+.feature strong{font-size:12px;line-height:1.45;text-transform:uppercase}
+.feature small{display:block;margin-top:4px;color:#ff4046;font-size:9px;text-transform:uppercase}
+.feature.instagram .feature-icon{border-color:#fff}
+
+/* HOME SERVICE STRIP */
+.home-service{
+  background:linear-gradient(90deg,#0b0b0c,#111113);
+  border-bottom:1px solid #242427;
+}
+.home-service-inner{
+  min-height:118px;display:grid;grid-template-columns:auto 1fr auto;
+  gap:18px;align-items:center;padding:18px 0
+}
+.home-service-icon{
+  width:58px;height:58px;border-radius:50%;display:grid;place-items:center;
+  background:#19191c;border:1px solid #3c3c42;font-size:26px
+}
+.home-service h3{margin:0 0 4px;text-transform:uppercase;font-size:20px}
+.home-service p{margin:0;color:var(--muted)}
+.home-service button{min-height:46px;padding:0 16px;border:0;border-radius:8px;background:#fff;color:#090909;font-weight:900;text-transform:uppercase}
+
+/* FOOTER */
+.footer{background:#050505}
+.footer-grid{min-height:138px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:20px;padding:22px 0}
+.footer-location{font-size:12px;color:#c8c8cc;text-transform:uppercase;line-height:1.5}
+.footer-location strong{color:#fff}
+.footer-logo{width:135px}
+.footer-links{justify-self:end;display:flex;align-items:center;gap:14px}
+.footer-links a{font-size:18px;font-weight:900}
+.footer-links .wa{color:var(--green)}
+
+/* MODALS */
+.modal{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.84);display:none;align-items:center;justify-content:center;padding:18px}
+.modal.open{display:flex}
+.modal-card{width:min(980px,100%);max-height:92vh;overflow:auto;background:#0d0d0f;border:1px solid #38383e;border-radius:18px}
+.modal-card.small{width:min(680px,100%)}
+.modal-head{position:sticky;top:0;z-index:5;background:rgba(13,13,15,.98);border-bottom:1px solid #29292e;padding:18px 20px;display:flex;align-items:flex-start;justify-content:space-between;gap:14px}
+.modal-head h2{margin:0;font-size:29px;text-transform:uppercase}
+.modal-body{padding:20px}
+.close{width:42px;height:42px;border-radius:50%;border:1px solid #424248;background:#19191c;color:#fff;font-size:23px}
+.menu-list{display:grid;gap:9px}
+.menu-list button,.menu-list a{min-height:52px;border:1px solid #34343a;background:#151518;color:#fff;border-radius:10px;text-transform:uppercase;font-weight:900;display:flex;align-items:center;justify-content:center}
+.service-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}
+.service-card{background:#151518;border:1px solid #333338;border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:8px}
+.service-card .ico{font-size:30px} .tag{width:max-content;background:#250d10;border:1px solid #70191e;color:#ff696d;border-radius:999px;padding:5px 8px;font-size:10px;font-weight:900;text-transform:uppercase}
+.service-card h3{margin:0;font-size:20px;text-transform:uppercase}
+.service-card p{margin:0;color:var(--muted);flex:1}
+.service-card button{margin-top:8px;min-height:42px;border:0;border-radius:8px;background:var(--red);color:#fff;font-weight:900}
+.premium-note{margin-top:16px;border:1px solid rgba(239,23,29,.45);background:#140b0d;border-radius:12px;padding:16px}
+.premium-note h3{margin:0 0 5px;text-transform:uppercase}
+.premium-note p{margin:0;color:var(--muted)}
+.gallery-title{margin:22px 0 12px;padding-top:18px;border-top:1px solid #2b2b30}
+.style-gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.style-gallery figure{margin:0;position:relative;overflow:hidden;border:1px solid #303036;border-radius:10px}
+.style-gallery img{width:100%;aspect-ratio:4/5;object-fit:cover}
+.style-gallery figcaption{position:absolute;left:0;right:0;bottom:0;padding:25px 8px 7px;background:linear-gradient(transparent,rgba(0,0,0,.9));font-size:10px;font-weight:900;text-transform:uppercase}
+.about-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:18px;align-items:center}
+.about-grid img{border-radius:12px;border:1px solid #303036}
+.about-grid p{color:var(--muted)}
+.work-show{display:grid;grid-template-columns:.8fr 1.2fr;gap:18px;align-items:center}
+.work-show img{width:100%;max-height:620px;object-fit:contain;border-radius:12px;border:1px solid #303036}
+.work-show p{color:var(--muted)}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.field{display:grid;gap:7px} .field.full{grid-column:1/-1}
+label{font-size:12px;font-weight:900;text-transform:uppercase}
+input,select,textarea{width:100%;background:#08080a;border:1px solid #3a3a40;color:#fff;padding:12px;border-radius:9px;outline:none}
+textarea{min-height:110px;resize:vertical}
+input:focus,select:focus,textarea:focus{border-color:var(--red)}
+.notice{border-left:3px solid var(--red);background:#151013;border-radius:8px;padding:12px 13px;margin-bottom:15px;color:#ddd}
+.submit{width:100%;min-height:48px;border:0;border-radius:8px;background:linear-gradient(180deg,#ff3037,#d1070d);color:#fff;font-weight:900}
+.contact-simple{display:grid;gap:12px}
+.contact-simple a{min-height:54px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:900;text-transform:uppercase}
+.contact-simple .wa{background:#18b856;color:#fff}
+.contact-simple .ig{background:#17171a;border:1px solid #39393f;color:#fff}
+
+/* TABLET */
+@media(max-width:930px){
+  .topbar{grid-template-columns:48px 1fr auto;min-height:84px;gap:9px}
+  .mobile-menu{display:grid;width:44px;height:44px;place-items:center;border-radius:10px;border:1px solid rgba(255,255,255,.25);background:rgba(0,0,0,.3);color:#fff;font-size:23px}
+  .logo{grid-column:2;grid-row:1;justify-self:center}
+  .logo img{width:175px;height:84px}
+  .nav{display:none}
+  .top-actions{grid-column:3;grid-row:1}
+  .top-actions .instagram{display:none}
+  .hero-stage{gap:15px;padding-top:6px}
+  .feature-grid{grid-template-columns:repeat(2,1fr)}
+  .feature:nth-child(2){border-right:0}
+  .feature:nth-child(-n+2){border-bottom:1px solid rgba(239,23,29,.4)}
+  .service-grid{grid-template-columns:1fr 1fr}
+}
+
+/* PHONE */
+@media(max-width:620px){
+  .wrap{width:min(100% - 22px,1180px)}
+  .hero{padding-bottom:20px}
+  .hero::after{display:none}
+  .topbar{min-height:76px}
+  .mobile-menu{width:40px;height:40px;font-size:21px}
+  .logo img{width:145px;height:72px}
+  .icon-link{width:38px;height:38px;font-size:16px}
+  .top-book{min-height:39px;padding:0 11px;font-size:11px}
+  .hero-stage{gap:12px;padding-top:2px}
+  .hero-visual{border-radius:16px}
+  .hero-buttons{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;width:100%}
+  .hero-buttons button,.hero-buttons a{min-height:48px;padding:0 6px;font-size:10px}
+  .feature-grid{grid-template-columns:1fr 1fr}
+  .feature{min-height:118px;padding:15px 10px;gap:9px}
+  .feature-icon{width:43px;height:43px;flex-basis:43px;font-size:18px}
+  .feature strong{font-size:9.5px}
+  .feature small{font-size:8px}
+  .home-service-inner{grid-template-columns:auto 1fr;gap:12px;min-height:130px}
+  .home-service-icon{width:48px;height:48px;font-size:21px}
+  .home-service h3{font-size:15px}
+  .home-service p{font-size:12px}
+  .home-service button{grid-column:1/-1;width:100%;min-height:44px}
+  .footer-grid{grid-template-columns:1fr auto;min-height:105px}
+  .footer-logo{display:none}
+  .service-grid{grid-template-columns:1fr}
+  .style-gallery{grid-template-columns:1fr 1fr}
+  .about-grid,.work-show{grid-template-columns:1fr}
+  .form-grid{grid-template-columns:1fr}
+  .field.full{grid-column:auto}
+}
+
+.svg-icon{width:1.35em;height:1.35em;display:block;flex:0 0 auto}
+.icon-link .svg-icon{width:21px;height:21px}
+.icon-link.wa .svg-icon,.btn-wa .svg-icon,.footer-links .wa .svg-icon{color:var(--green)}
+.top-book .svg-icon,.btn-red .svg-icon{width:18px;height:18px}
+.hero-buttons .svg-icon{width:19px;height:19px}
+.feature-icon .svg-icon{width:25px;height:25px}
+.home-service-icon .svg-icon{width:29px;height:29px}
+.footer-location .svg-icon{display:inline-block;width:19px;height:19px;vertical-align:-4px;margin-right:5px}
+.footer-links .svg-icon{width:21px;height:21px}
+.service-card .ico{width:38px;height:38px;display:grid;place-items:center}
+.service-card .ico .svg-icon{width:32px;height:32px}
+.premium-note h3{display:flex;align-items:center;gap:9px}
+.premium-note h3 .svg-icon{width:24px;height:24px}
+
+</style>
+</head>
+<body>
+
+<main id="inicio">
+<section class="hero">
+  <div class="wrap">
+    <div class="topbar">
+      <a class="logo" href="#inicio"><img src="logo.webp" alt="Magrinhos Barber Shop"></a>
+      <button class="mobile-menu" type="button" onclick="openModal('menuModal')" aria-label="Abrir menu">☰</button>
+
+      <nav class="nav">
+        <button type="button" onclick="goHome()">Início</button>
+        <button type="button" onclick="openModal('aboutModal')">Sobre</button>
+        <button type="button" onclick="openModal('servicesModal')">Serviços</button>
+        <a href="https://wa.me/351924377481?text=Ol%C3%A1%21%20Gostaria%20de%20esclarecer%20uma%20d%C3%BAvida%20sobre%20os%20servi%C3%A7os%20da%20Magrinhos%20Barber%20Shop." target="_blank" rel="noopener">Contacto</a>
+      </nav>
+
+      <div class="top-actions">
+        <a class="icon-link instagram" href="https://www.instagram.com/magrinhosbarber?igsi=YmtlaXlreDExOHR0" target="_blank" rel="noopener" aria-label="Instagram"><svg class="svg-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.4" cy="6.7" r="1.2" fill="currentColor"/></svg></a>
+        <a class="icon-link wa" href="https://wa.me/351924377481?text=Ol%C3%A1%21%20Gostaria%20de%20esclarecer%20uma%20d%C3%BAvida%20sobre%20os%20servi%C3%A7os%20da%20Magrinhos%20Barber%20Shop." target="_blank" rel="noopener" aria-label="WhatsApp"><svg class="svg-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 11.6a8.3 8.3 0 0 1-12.3 7.3L3.5 20l1.2-4.5A8.3 8.3 0 1 1 20.5 11.6Z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><path d="M8.1 7.8c.3-.7.7-.7 1-.7h.4c.2 0 .4.1.5.5l.8 1.9c.1.3.1.5-.1.7l-.6.8c-.2.2-.2.4-.1.6.5 1 1.3 1.8 2.2 2.4.3.2.5.2.7 0l.8-1c.2-.2.4-.3.7-.2l1.9.9c.3.2.5.3.5.5 0 .3-.2 1.4-1 2-.7.7-1.7.9-2.6.6-1.4-.4-3.1-1.2-4.6-2.6-1.1-1-2-2.3-2.5-3.5-.5-1.1-.5-2.2 0-2.9Z" fill="currentColor"/></svg></a>
+        <button class="top-book" type="button" onclick="openModal('bookingModal')"><svg class="svg-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M7 3v4M17 3v4M3 9h18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M7 13h2M11 13h2M15 13h2M7 17h2M11 17h2M15 17h2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg> Agendar</button>
+      </div>
+    </div>
+
+    <div class="hero-stage">
+      <div class="hero-visual">
+        <picture>
+          <source media="(max-width: 620px)" srcset="hero-mobile.webp">
+          <img src="hero-desktop.webp" alt="Magrinhos Barber Shop - imagem principal">
+        </picture>
+      </div>
+
+      <div class="hero-buttons">
+        <button type="button" class="btn-dark" onclick="openModal('servicesModal')"><svg class="svg-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="7" r="3" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="6" cy="17" r="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="m8.5 8.5 11-5M8.5 15.5l11 5M9 12l10-4.5M9 12l10 4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg> Ver serviços</button>
+        <button type="button" class="btn-red" onclick="openModal('bookingModal')"><svg class="svg-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M7 3v4M17 3v4M3 9h18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M7 13h2M11 13h2M15 13h2M7 17h2M11 17h2M15 17h2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg> Agendar</button>
+        <a class="btn-wa" href="https://wa.me/351924377481?text=Ol%C3%A1%21%20Gostaria%20de%20esclarecer%20uma%20d%C3%BAvida%20sobre%20os%20servi%C3%A7os%20da%20Magrinhos%20Barber%20Shop." target="_blank" rel="noopener"><svg class="svg-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 11.6a8.3 8.3 0 0 1-12.3 7.3L3.5 20l1.2-4.5A8.3 8.3 0 1 1 20.5 11.6Z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><path d="M8.1 7.8c.3-.7.7-.7 1-.7h.4c.2 0 .4.1.5.5l.8 1.9c.1.3.1.5-.1.7l-.6.8c-.2.2-.2.4-.1.6.5 1 1.3 1.8 2.2 2.4.3.2.5.2.7 0l.8-1c.2-.2.4-.3.7-.2l1.9.9c.3.2.5.3.5.5 0 .3-.2 1.4-1 2-.7.7-1.7.9-2.6.6-1.4-.4-3.1-1.2-4.6-2.6-1.1-1-2-2.3-2.5-3.5-.5-1.1-.5-2.2 0-2.9Z" fill="currentColor"/></svg> WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="features">
+  <div class="wrap feature-grid">
+    <button class="feature" type="button" onclick="openModal('servicesModal')">
+      <span class="feature-icon"><svg class="svg-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="7" r="3" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="6" cy="17" r="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="m8.5 8.5 11-5M8.5 15.5l11 5M9 12l10-4.5M9 12l10 4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><span><strong>Cortes de<br>alta qualidade</strong></span>
+    </button>
+    <button class="feature" type="button" onclick="openModal('bookingModal')">
+      <span class="feature-icon"><svg class="svg-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5C8.2 3.5 10 3 12 3s3.8.5 5 1.5v5.3c0 4.7-2 8.4-5 10.2-3-1.8-5-5.5-5-10.2V4.5Z" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M8.3 11c.8.7 1.7 1 2.7 1m4.7-1c-.8.7-1.7 1-2.7 1M9.5 15c1.6 1.3 3.4 1.3 5 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span><span><strong>Atendimento<br>personalizado</strong></span>
+    </button>
+    <button class="feature" type="button" onclick="openModal('aboutModal')">
+      <span class="feature-icon"><svg class="svg-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 8 4.3 3.3L12 5l4.7 6.3L21 8l-2 9H5L3 8Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M5 20h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><span><strong>Seu estilo<br>é único</strong></span>
+    </button>
+    <a class="feature instagram" href="https://www.instagram.com/magrinhosbarber?igsi=YmtlaXlreDExOHR0" target="_blank" rel="noopener">
+      <span class="feature-icon"><svg class="svg-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.4" cy="6.7" r="1.2" fill="currentColor"/></svg></span>
+      <span><strong>Siga-nos para acompanhar as novidades</strong><small>@MAGRINHOSBARBER</small></span>
+    </a>
+  </div>
+</section>
+
+<section class="home-service">
+  <div class="wrap home-service-inner">
+    <div class="home-service-icon"><svg class="svg-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 11 9-8 9 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M5 10v11h14V10M9 21v-6h6v6" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></div>
+    <div>
+      <h3>Serviço ao domicílio</h3>
+      <p>Atendimento habitual na nossa barbearia em Lagos. O domicílio é um serviço adicional, disponível apenas mediante pedido, agendamento e confirmação de disponibilidade, com custos adicionais.</p>
+    </div>
+    <button type="button" onclick="openBookingHome()">Agendar ao domicílio</button>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <div class="footer-location"><svg class="svg-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s7-7.2 7-13A7 7 0 0 0 5 9c0 5.8 7 13 7 13Z" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="9" r="2.5" fill="none" stroke="currentColor" stroke-width="2"/></svg> <strong>Lagos · Algarve</strong><br>Onde estilo encontra pessoas reais.</div>
+    <img class="footer-logo" src="logo.webp" alt="Magrinhos Barber Shop">
+    <div class="footer-links">
+      <a href="https://www.instagram.com/magrinhosbarber?igsi=YmtlaXlreDExOHR0" target="_blank" rel="noopener" aria-label="Instagram"><svg class="svg-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.4" cy="6.7" r="1.2" fill="currentColor"/></svg></a>
+      <a class="wa" href="https://wa.me/351924377481?text=Ol%C3%A1%21%20Gostaria%20de%20esclarecer%20uma%20d%C3%BAvida%20sobre%20os%20servi%C3%A7os%20da%20Magrinhos%20Barber%20Shop." target="_blank" rel="noopener" aria-label="WhatsApp"><svg class="svg-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 11.6a8.3 8.3 0 0 1-12.3 7.3L3.5 20l1.2-4.5A8.3 8.3 0 1 1 20.5 11.6Z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><path d="M8.1 7.8c.3-.7.7-.7 1-.7h.4c.2 0 .4.1.5.5l.8 1.9c.1.3.1.5-.1.7l-.6.8c-.2.2-.2.4-.1.6.5 1 1.3 1.8 2.2 2.4.3.2.5.2.7 0l.8-1c.2-.2.4-.3.7-.2l1.9.9c.3.2.5.3.5.5 0 .3-.2 1.4-1 2-.7.7-1.7.9-2.6.6-1.4-.4-3.1-1.2-4.6-2.6-1.1-1-2-2.3-2.5-3.5-.5-1.1-.5-2.2 0-2.9Z" fill="currentColor"/></svg></a>
+    </div>
+  </div>
+</footer>
+</main>
+
+<div class="modal" id="menuModal" aria-hidden="true">
+  <div class="modal-card small">
+    <div class="modal-head"><div><div class="eyebrow">Menu</div><h2>Magrinhos Barber Shop</h2></div><button class="close" onclick="closeModal('menuModal')">×</button></div>
+    <div class="modal-body menu-list">
+      <button type="button" onclick="goHome()">Início</button>
+      <button type="button" onclick="openModal('aboutModal')">Sobre</button>
+      <button type="button" onclick="openModal('servicesModal')">Serviços</button>
+      <button type="button" onclick="openModal('worksModal')">Trabalhos</button>
+      <a href="https://wa.me/351924377481?text=Ol%C3%A1%21%20Gostaria%20de%20esclarecer%20uma%20d%C3%BAvida%20sobre%20os%20servi%C3%A7os%20da%20Magrinhos%20Barber%20Shop." target="_blank" rel="noopener">Contacto pelo WhatsApp</a>
+      <button type="button" onclick="openModal('bookingModal')">Agendar</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="aboutModal" aria-hidden="true">
+  <div class="modal-card">
+    <div class="modal-head"><div><div class="eyebrow">Sobre</div><h2>Mais que cortes, criamos atitude.</h2></div><button class="close" onclick="closeModal('aboutModal')">×</button></div>
+    <div class="modal-body about-grid">
+      <img src="about.webp" alt="Magrinhos Barber Shop">
+      <div><p>Atendimento cuidado, foco no estilo e precisão em cada detalhe. Em Lagos e arredores, com possibilidade de serviço ao domicílio mediante confirmação.</p></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="servicesModal" aria-hidden="true">
+  <div class="modal-card">
+    <div class="modal-head"><div><div class="eyebrow">Qualidade em cada detalhe</div><h2>Nossos serviços</h2></div><button class="close" onclick="closeModal('servicesModal')">×</button></div>
+    <div class="modal-body">
+      <div class="service-grid">
+        <article class="service-card"><span class="ico"><svg class="svg-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="7" r="3" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="6" cy="17" r="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="m8.5 8.5 11-5M8.5 15.5l11 5M9 12l10-4.5M9 12l10 4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><span class="tag">Por agendamento</span><h3>Corte masculino</h3><p>Corte personalizado com atenção ao estilo e ao acabamento.</p><button type="button" onclick="bookService('Corte masculino')">Agendar</button></article>
+        <article class="service-card"><span class="ico"><svg class="svg-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5C8.2 3.5 10 3 12 3s3.8.5 5 1.5v5.3c0 4.7-2 8.4-5 10.2-3-1.8-5-5.5-5-10.2V4.5Z" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M8.3 11c.8.7 1.7 1 2.7 1m4.7-1c-.8.7-1.7 1-2.7 1M9.5 15c1.6 1.3 3.4 1.3 5 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span><span class="tag">Por agendamento</span><h3>Barba design</h3><p>Desenho, definição e acabamento cuidado da barba.</p><button type="button" onclick="bookService('Barba design')">Agendar</button></article>
+        <article class="service-card"><span class="ico"><svg class="svg-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="7" r="3" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="6" cy="17" r="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="m8.5 8.5 11-5M8.5 15.5l11 5M9 12l10-4.5M9 12l10 4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><span class="tag">Completo</span><h3>Corte + barba</h3><p>Serviço completo para alinhar corte e barba no mesmo atendimento.</p><button type="button" onclick="bookService('Corte + barba')">Agendar</button></article>
+      </div>
+
+      <div class="premium-note"><h3><svg class="svg-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3h6M10 3v4l-2 2v10a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V9l-2-2V3" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M8 12h8" stroke="currentColor" stroke-width="2"/></svg> Produtos premium, sempre</h3><p>Produtos de qualidade premium usados na preparação, cuidado e finalização.</p></div>
+
+      <div class="gallery-title"><div class="eyebrow">Estilos em destaque</div><h3>Uma seleção de cortes diferentes</h3></div>
+      <div class="style-gallery">
+        <figure><img src="style-01-infantil-risca.webp" alt="Corte infantil com risca"><figcaption>Infantil · risca</figcaption></figure>
+        <figure><img src="style-02-fade-barba.webp" alt="Fade com barba"><figcaption>Fade · barba</figcaption></figure>
+        <figure><img src="style-03-caracois-longos.webp" alt="Caracóis longos"><figcaption>Caracóis · comprimento</figcaption></figure>
+        <figure><img src="style-04-infantil-classico.webp" alt="Corte infantil clássico"><figcaption>Infantil · clássico</figcaption></figure>
+        <figure><img src="style-05-design-zigzag.webp" alt="Design geométrico"><figcaption>Design · geométrico</figcaption></figure>
+        <figure><img src="style-06-manbun-undercut.webp" alt="Man bun undercut"><figcaption>Man bun · undercut</figcaption></figure>
+        <figure><img src="style-07-pompadour.webp" alt="Pompadour"><figcaption>Pompadour · fade</figcaption></figure>
+        <figure><img src="style-08-barba-cheia.webp" alt="Barba cheia"><figcaption>Barba · definição</figcaption></figure>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="worksModal" aria-hidden="true">
+  <div class="modal-card">
+    <div class="modal-head"><div><div class="eyebrow">Trabalhos</div><h2>Portefólio real</h2></div><button class="close" onclick="closeModal('worksModal')">×</button></div>
+    <div class="modal-body work-show">
+      <img src="poster-vagas.webp" alt="Magrinhos Barber Shop">
+      <div><p>Veja os estilos selecionados na área de serviços ou acompanhe os trabalhos mais recentes no Instagram.</p><a class="btn-red" style="min-height:48px;padding:0 16px;border-radius:8px;display:inline-flex;align-items:center;font-weight:900" href="https://www.instagram.com/magrinhosbarber?igsi=YmtlaXlreDExOHR0" target="_blank" rel="noopener">Abrir Instagram</a></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="bookingModal" aria-hidden="true">
+  <div class="modal-card small">
+    <div class="modal-head"><div><div class="eyebrow">Atendimento por agendamento</div><h2>Agendar</h2></div><button class="close" onclick="closeModal('bookingModal')">×</button></div>
+    <div class="modal-body">
+      <div class="notice">Preencha os dados. Ao enviar, o WhatsApp abre diretamente com a mensagem preparada para a Magrinhos Barber Shop.</div>
+      <form id="bookingForm">
+        <div class="form-grid">
+          <div class="field"><label>Nome *</label><input id="name" required></div>
+          <div class="field"><label>Contacto *</label><input id="contact" type="tel" required></div>
+          <div class="field full"><label>Serviço *</label><select id="service" required><option value="">Selecione...</option><option>Corte masculino</option><option>Barba design</option><option>Corte + barba</option><option>Outro</option></select></div>
+          <div class="field"><label>Dia de preferência</label><input id="date" type="date"></div>
+          <div class="field"><label>Horário preferido</label><select id="time"><option value="">Sem preferência</option><option>Manhã</option><option>Tarde</option><option>Fim do dia</option><option>Outro horário</option></select></div>
+          <div class="field full"><label>Serviço ao domicílio? *</label><select id="home" required onchange="toggleLocation()"><option value="">Selecione...</option><option>Não</option><option>Sim</option><option>A confirmar</option></select></div>
+          <div class="field full" id="locationField" style="display:none"><label>Localidade / zona</label><input id="location" placeholder="Ex.: Lagos"></div>
+          <div class="field full"><label>Observações</label><textarea id="notes" placeholder="Alguma informação importante?"></textarea></div>
+          <div class="field full"><button class="submit" type="submit">Enviar pelo WhatsApp</button></div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="contactModal" aria-hidden="true">
+  <div class="modal-card small">
+    <div class="modal-head"><div><div class="eyebrow">Contacto</div><h2>Fale connosco</h2></div><button class="close" onclick="closeModal('contactModal')">×</button></div>
+    <div class="modal-body contact-simple">
+      <a class="wa" href="https://wa.me/351924377481?text=Ol%C3%A1%21%20Gostaria%20de%20esclarecer%20uma%20d%C3%BAvida%20sobre%20os%20servi%C3%A7os%20da%20Magrinhos%20Barber%20Shop." target="_blank" rel="noopener">WhatsApp · Falar diretamente</a>
+      <a class="ig" href="https://www.instagram.com/magrinhosbarber?igsi=YmtlaXlreDExOHR0" target="_blank" rel="noopener">Instagram · @MAGRINHOSBARBER</a>
+    </div>
+  </div>
+</div>
+
+<script>
+const MODALS=['menuModal','aboutModal','servicesModal','worksModal','bookingModal','contactModal'];
+const WHATSAPP_NUMBER='351924377481';
+
+function closeAll(){
+  MODALS.forEach(id=>{const e=document.getElementById(id);if(e){e.classList.remove('open');e.setAttribute('aria-hidden','true')}});
+  document.body.style.overflow='';
+}
+function openModal(id){
+  closeAll();
+  const e=document.getElementById(id);
+  if(!e)return;
+  e.classList.add('open');e.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';
+}
+function closeModal(id){const e=document.getElementById(id);if(!e)return;e.classList.remove('open');e.setAttribute('aria-hidden','true');document.body.style.overflow=''}
+function goHome(){closeAll();document.getElementById('inicio').scrollIntoView({behavior:'smooth'})}
+function bookService(s){document.getElementById('service').value=s;openModal('bookingModal')}
+function openBookingHome(){document.getElementById('home').value='Sim';toggleLocation();openModal('bookingModal')}
+function toggleLocation(){
+  const v=document.getElementById('home').value;
+  document.getElementById('locationField').style.display=(v==='Sim'||v==='A confirmar')?'grid':'none';
+}
+function formatDatePT(value){
+  if(!value) return 'a combinar';
+  const parts=value.split('-');
+  if(parts.length!==3) return value;
+  return `${parts[2]}/${parts[1]}/${parts[0]}`;
+}
+function makeMessage(){
+  const name=document.getElementById('name').value.trim();
+  const contact=document.getElementById('contact').value.trim();
+  const service=document.getElementById('service').value;
+  const date=formatDatePT(document.getElementById('date').value);
+  const time=document.getElementById('time').value||'sem preferência';
+  const home=document.getElementById('home').value;
+  const location=document.getElementById('location').value.trim();
+  const notes=document.getElementById('notes').value.trim();
+  let msg=`Olá! O meu nome é ${name}.\nContacto: ${contact}.\nPretendo: ${service}.\nGostaria de saber a vossa disponibilidade e quais os horários disponíveis.\nDia de preferência: ${date}.\nHorário preferido: ${time}.\nServiço ao domicílio: ${home}.`;
+  if(location) msg+=`\nLocalidade/zona: ${location}.`;
+  if(notes) msg+=`\nObservações: ${notes}`;
+  msg+='\nObrigado!';
+  return msg;
+}
+document.getElementById('bookingForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  if(!e.target.reportValidity())return;
+  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(makeMessage())}`,'_blank');
+});
+document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)closeModal(m.id)}));
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAll()});
+</script>
+</body>
+</html>
