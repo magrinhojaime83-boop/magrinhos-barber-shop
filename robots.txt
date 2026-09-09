@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://magrinhojaime83-boop.github.io/magrinhos-barber-shop/sitemap.xml
+Sitemap: https://magrinhosbarbershop.vercel.app/sitemap.xml
