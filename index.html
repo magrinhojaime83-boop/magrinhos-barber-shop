@@ -419,33 +419,45 @@ input:focus,select:focus,textarea:focus{border-color:var(--red)}
 }
 
 
-/* Área Administrador: agenda privada */
-.admin-top-nav{color:#ff4b50!important}
-.admin-agenda-toolbar{display:flex;justify-content:flex-end;margin-bottom:10px}
-.admin-agenda-toolbar button{min-height:36px;border:1px solid #34343a;background:#151518;color:#fff;border-radius:8px;padding:0 12px;font-weight:900}
+/* Administrador + agenda */
+#adminTopButton{color:#ff4a50}
+.admin-agenda-wrap{margin-top:22px;padding-top:18px;border-top:1px solid #2b2b30}
+.admin-agenda-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:12px}
+.admin-agenda-head h3{margin:0 0 4px}
+.admin-agenda-head small{color:#aaaab0;line-height:1.4}
 .admin-agenda-list{display:grid;gap:10px}
-.admin-agenda-card{border:1px solid #34343a;background:#111114;border-radius:11px;padding:12px;display:grid;gap:7px}
-.admin-agenda-main{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
-.admin-agenda-main strong{font-size:15px}
-.admin-agenda-when{font-size:12px;font-weight:900;color:#ff6b70;text-align:right;white-space:nowrap}
-.admin-agenda-meta{font-size:12px;color:#c5c5ca;line-height:1.5}
-.admin-agenda-actions{display:flex;justify-content:flex-end}
-.admin-agenda-delete{min-height:34px;border:1px solid #6f1e23;background:#240d10;color:#ff7a7f;border-radius:8px;padding:0 11px;font-weight:900}
+.admin-agenda-card{border:1px solid #303036;background:#111114;border-radius:10px;padding:12px}
+.admin-agenda-main{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.admin-agenda-name{font-size:15px;font-weight:950;color:#fff}
+.admin-agenda-when{font-size:13px;font-weight:900;color:#ff5a60;margin-top:4px}
+.admin-agenda-meta{display:grid;gap:4px;color:#c7c7cb;font-size:12px;line-height:1.45;margin-top:9px}
+.admin-agenda-delete{min-height:34px;border:1px solid rgba(239,23,29,.55);background:rgba(239,23,29,.10);color:#fff;border-radius:8px;padding:0 10px;font-weight:900}
 @media(max-width:620px){
-  .admin-agenda-main{display:grid}
-  .admin-agenda-when{text-align:left}
+  .admin-agenda-head{display:block}
+  .admin-agenda-head .admin-secondary{width:100%;margin-top:10px}
+  .admin-agenda-main{display:block}
+  .admin-agenda-delete{width:100%;margin-top:10px}
 }
 
 </style>
 
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="icon" href="favicon.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-<meta name="theme-color" content="#09090b">
+<meta name="theme-color" content="#0a0a0c">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="apple-mobile-web-app-title" content="Magrinhos Barber">
+
+<script>
+(function(){
+  if(location.hostname.endsWith('github.io')){
+    location.replace('https://magrinhosbarbershop.vercel.app/'+(location.search||'')+(location.hash||''));
+  }
+})();
+</script>
+
 
 </head>
 <body>
@@ -461,7 +473,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--red)}
         <button type="button" onclick="goHome()">Início</button>
         <button type="button" onclick="openModal('aboutModal')">Sobre</button>
         <button type="button" onclick="openModal('servicesModal')">Serviços</button>
-        <button id="adminTopButton" class="admin-top-nav" type="button" onclick="openAdminPanel()" style="display:none">Administrador</button>
+        <button id="adminTopButton" type="button" onclick="openAdminPanel()" style="display:none">Administrador</button>
         <a href="https://wa.me/351924377481?text=Ol%C3%A1%21%20Gostaria%20de%20esclarecer%20uma%20d%C3%BAvida%20sobre%20os%20servi%C3%A7os%20da%20Magrinhos%20Barber%20Shop." target="_blank" rel="noopener">Contacto</a>
       </nav>
 
@@ -738,13 +750,16 @@ input:focus,select:focus,textarea:focus{border-color:var(--red)}
       </div>
 
 
-      <div class="admin-list-wrap">
-        <h3>Agenda de clientes</h3>
-        <div class="admin-agenda-toolbar">
-          <button type="button" onclick="loadAdminAgenda(true)">Atualizar agenda</button>
+      <div class="admin-list-wrap admin-agenda-wrap">
+        <div class="admin-agenda-head">
+          <div>
+            <h3>Agenda de clientes</h3>
+            <small>Pedidos enviados pelo formulário do site. Só é visível na área de administrador.</small>
+          </div>
+          <button class="admin-secondary" type="button" onclick="loadAdminAgenda(true)">Atualizar agenda</button>
         </div>
         <div id="adminAgendaList" class="admin-agenda-list">
-          <div class="admin-empty">A carregar agenda…</div>
+          <div class="admin-empty">A carregar agenda...</div>
         </div>
       </div>
 
@@ -770,8 +785,8 @@ input:focus,select:focus,textarea:focus{border-color:var(--red)}
 const MODALS=['menuModal','aboutModal','servicesModal','worksModal','bookingModal','adminModal','contactModal'];
 const WHATSAPP_NUMBER='351924377481';
 const AVAILABILITY_API='https://iotnbkcifxswoicgjhew.supabase.co/functions/v1/barber-availability';
-const BOOKINGS_API='https://iotnbkcifxswoicgjhew.supabase.co/functions/v1/barber-bookings';
-const BARBER_ADMIN_SESSION_KEY='magrinhos_barber_admin_code';
+const BOOKING_API='https://iotnbkcifxswoicgjhew.supabase.co/functions/v1/barber-bookings';
+const BARBER_ADMIN_STORAGE_KEY='magrinhos_barber_admin_code';
 let adminAccessCode='';
 
 function closeAll(){
@@ -820,12 +835,15 @@ async function initAdminAccess(){
   if(match){
     try{code=decodeURIComponent(match[1]);}catch(e){code='';}
     if(code && await sha256Text(code)===ADMIN_ACCESS_HASH){
-      sessionStorage.setItem(BARBER_ADMIN_SESSION_KEY,code);
+      localStorage.setItem(BARBER_ADMIN_STORAGE_KEY,code);
+      const u=new URL(location.href);
+      u.hash='';
+      history.replaceState(null,'',u.pathname+u.search);
     }else{
       code='';
     }
   }else{
-    code=sessionStorage.getItem(BARBER_ADMIN_SESSION_KEY)||'';
+    code=localStorage.getItem(BARBER_ADMIN_STORAGE_KEY)||'';
     if(!code || await sha256Text(code)!==ADMIN_ACCESS_HASH)code='';
   }
 
@@ -839,27 +857,26 @@ async function initAdminAccess(){
 }
 
 function updateAdminVisibility(){
-  let btn=document.getElementById('adminMenuButton');
   const topBtn=document.getElementById('adminTopButton');
+  let menuBtn=document.getElementById('adminMenuButton');
+
+  if(topBtn)topBtn.style.display=adminUnlocked?'':'none';
 
   if(!adminUnlocked){
-    if(btn)btn.remove();
-    if(topBtn)topBtn.style.display='none';
+    if(menuBtn)menuBtn.remove();
     return;
   }
 
-  if(topBtn)topBtn.style.display='';
-
-  if(!btn){
+  if(!menuBtn){
     const menuList=document.querySelector('#menuModal .menu-list');
-    if(menuList){
-      btn=document.createElement('button');
-      btn.type='button';
-      btn.id='adminMenuButton';
-      btn.textContent='Administrador da Web';
-      btn.addEventListener('click',openAdminPanel);
-      menuList.appendChild(btn);
-    }
+    if(!menuList)return;
+
+    menuBtn=document.createElement('button');
+    menuBtn.type='button';
+    menuBtn.id='adminMenuButton';
+    menuBtn.textContent='Administrador';
+    menuBtn.addEventListener('click',openAdminPanel);
+    menuList.appendChild(menuBtn);
   }
 }
 
@@ -1734,78 +1751,82 @@ async function adminUnblockRange(from,to){
 }
 
 async function reloadAvailability(){
-  await loadAvailability();
-  alert('Lista recarregada a partir do site.');
+  await Promise.all([loadAvailability(),loadAdminAgenda()]);
+  alert('Disponibilidade e agenda recarregadas.');
+}
+
+function adminLogout(){
+  closeModal('adminModal');
+  updateAdminVisibility();
 }
 
 
-let adminAgendaRequest=null;
+function escapeHTML(value){
+  return String(value??'').replace(/[&<>"']/g,ch=>({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[ch]));
+}
 
-function barberAgendaDateLabel(value){
-  return value?formatDateLabel(value):'A combinar';
+function formatAgendaDate(value){
+  return value?formatDatePT(value):'A combinar';
+}
+
+async function loadAdminAgenda(showMessage=false){
+  if(!adminUnlocked || !adminAccessCode)return false;
+  const box=document.getElementById('adminAgendaList');
+  if(box)box.innerHTML='<div class="admin-empty">A carregar agenda...</div>';
+
+  try{
+    const res=await fetch(BOOKING_API+'?v='+Date.now(),{
+      cache:'no-store',
+      mode:'cors',
+      credentials:'omit',
+      headers:{'x-admin-code':adminAccessCode}
+    });
+    if(!res.ok)throw new Error('agenda unavailable');
+    const data=await res.json();
+    renderAdminAgenda(Array.isArray(data.bookings)?data.bookings:[]);
+    if(showMessage)alert('Agenda atualizada.');
+    return true;
+  }catch(e){
+    console.error(e);
+    if(box)box.innerHTML='<div class="admin-empty">Não foi possível carregar a agenda.</div>';
+    if(showMessage)alert('Não foi possível atualizar a agenda.');
+    return false;
+  }
 }
 
 function renderAdminAgenda(bookings){
   const box=document.getElementById('adminAgendaList');
   if(!box)return;
-  const rows=Array.isArray(bookings)?bookings:[];
 
-  if(!rows.length){
-    box.innerHTML='<div class="admin-empty">Ainda não existem agendamentos guardados.</div>';
+  if(!bookings.length){
+    box.innerHTML='<div class="admin-empty">Ainda não existem pedidos de agendamento.</div>';
     return;
   }
 
-  box.innerHTML=rows.map(b=>{
-    const when=`${barberAgendaDateLabel(b.date)} · ${b.time||'Sem preferência'}`;
-    const service=b.service||'Serviço não indicado';
-    const contact=b.contact?`Contacto: ${escapeHtml(b.contact)}`:'';
-    const home=b.homeService?`Domicílio: ${escapeHtml(b.homeService)}`:'';
-    const location=b.location?`Zona: ${escapeHtml(b.location)}`:'';
-    const notes=b.notes?`Observações: ${escapeHtml(b.notes)}`:'';
-    const meta=[contact,home,location,notes].filter(Boolean).join('<br>');
+  box.innerHTML=bookings.map(b=>{
+    const date=formatAgendaDate(b.bookingDate);
+    const time=b.bookingTime||'Sem preferência';
+    const location=b.location?`<div><strong>Localidade:</strong> ${escapeHTML(b.location)}</div>`:'';
+    const home=b.homeService?`<div><strong>Domicílio:</strong> ${escapeHTML(b.homeService)}</div>`:'';
+    const notes=b.notes?`<div><strong>Observações:</strong> ${escapeHTML(b.notes)}</div>`:'';
+
     return `<div class="admin-agenda-card">
       <div class="admin-agenda-main">
-        <div><strong>${escapeHtml(b.name||'Cliente')}</strong><div class="admin-agenda-meta">${escapeHtml(service)}</div></div>
-        <div class="admin-agenda-when">${escapeHtml(when)}</div>
+        <div>
+          <div class="admin-agenda-name">${escapeHTML(b.clientName)}</div>
+          <div class="admin-agenda-when">${escapeHTML(date)} · ${escapeHTML(time)}</div>
+        </div>
+        <button class="admin-agenda-delete" type="button" onclick="deleteAdminBooking(${Number(b.id)})">Eliminar</button>
       </div>
-      ${meta?`<div class="admin-agenda-meta">${meta}</div>`:''}
-      <div class="admin-agenda-actions"><button class="admin-agenda-delete" type="button" onclick="deleteAdminBooking(${Number(b.id)})">Eliminar</button></div>
+      <div class="admin-agenda-meta">
+        <div><strong>Contacto:</strong> ${escapeHTML(b.contact)}</div>
+        <div><strong>Serviço:</strong> ${escapeHTML(b.service)}</div>
+        ${home}${location}${notes}
+      </div>
     </div>`;
   }).join('');
-}
-
-function escapeHtml(value){
-  return String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[ch]));
-}
-
-async function loadAdminAgenda(showMessage=false){
-  if(!adminUnlocked || !adminAccessCode)return false;
-  if(adminAgendaRequest)return adminAgendaRequest;
-
-  adminAgendaRequest=(async()=>{
-    const box=document.getElementById('adminAgendaList');
-    try{
-      const res=await fetch(BOOKINGS_API+'?v='+Date.now(),{
-        cache:'no-store',
-        mode:'cors',
-        credentials:'omit',
-        headers:{'x-admin-code':adminAccessCode}
-      });
-      if(!res.ok)throw new Error('agenda unavailable');
-      const data=await res.json();
-      renderAdminAgenda(data.bookings);
-      if(showMessage)alert('Agenda atualizada.');
-      return true;
-    }catch(e){
-      console.error('Erro ao carregar agenda',e);
-      if(box)box.innerHTML='<div class="admin-empty">Não foi possível carregar a agenda. Tente novamente.</div>';
-      return false;
-    }finally{
-      adminAgendaRequest=null;
-    }
-  })();
-
-  return adminAgendaRequest;
 }
 
 async function deleteAdminBooking(id){
@@ -1813,35 +1834,35 @@ async function deleteAdminBooking(id){
   if(!confirm('Eliminar este agendamento da agenda?'))return;
 
   try{
-    const res=await fetch(BOOKINGS_API,{
-      method:'POST',
+    const res=await fetch(BOOKING_API,{
+      method:'DELETE',
       mode:'cors',
       credentials:'omit',
       cache:'no-store',
       headers:{'Content-Type':'application/json','x-admin-code':adminAccessCode},
-      body:JSON.stringify({action:'delete',id:Number(id)})
+      body:JSON.stringify({id})
     });
     if(!res.ok)throw new Error('delete failed');
     await loadAdminAgenda();
   }catch(e){
-    console.error('Erro ao eliminar agendamento',e);
+    console.error(e);
     alert('Não foi possível eliminar este agendamento.');
   }
 }
 
 async function saveBookingToAgenda(){
   const payload={
-    name:document.getElementById('name').value.trim(),
+    clientName:document.getElementById('name').value.trim(),
     contact:document.getElementById('contact').value.trim(),
     service:document.getElementById('service').value,
-    date:document.getElementById('date').value,
-    time:document.getElementById('time').value,
-    homeService:document.getElementById('home').value,
-    location:document.getElementById('location').value.trim(),
-    notes:document.getElementById('notes').value.trim()
+    bookingDate:document.getElementById('date').value||null,
+    bookingTime:document.getElementById('time').value||null,
+    homeService:document.getElementById('home').value||null,
+    location:document.getElementById('location').value.trim()||null,
+    notes:document.getElementById('notes').value.trim()||null
   };
 
-  const res=await fetch(BOOKINGS_API,{
+  const res=await fetch(BOOKING_API,{
     method:'POST',
     mode:'cors',
     credentials:'omit',
@@ -1849,14 +1870,16 @@ async function saveBookingToAgenda(){
     headers:{'Content-Type':'application/json'},
     body:JSON.stringify(payload)
   });
-  if(!res.ok)throw new Error('booking save failed');
-  return res.json();
+
+  if(!res.ok){
+    const data=await res.json().catch(()=>({}));
+    const err=new Error(data.error||'booking_save_failed');
+    err.code=data.error||'booking_save_failed';
+    throw err;
+  }
+  return true;
 }
 
-function adminLogout(){
-  closeModal('adminModal');
-  updateAdminVisibility();
-}
 
 function formatDatePT(value){
   if(!value) return 'a combinar';
@@ -1882,7 +1905,6 @@ function makeMessage(){
 document.getElementById('bookingForm').addEventListener('submit',async e=>{
   e.preventDefault();
   if(!e.target.reportValidity())return;
-  if(e.target.dataset.sending==='1')return;
 
   const synced=await loadAvailability();
   if(!synced){
@@ -1893,19 +1915,25 @@ document.getElementById('bookingForm').addEventListener('submit',async e=>{
   if(!checkSelectedDate())return;
   if(!checkSelectedTime())return;
 
-  const submit=e.target.querySelector('button[type="submit"]');
-  e.target.dataset.sending='1';
-  if(submit)submit.disabled=true;
+  const submitButton=e.target.querySelector('button[type="submit"]');
+  if(submitButton)submitButton.disabled=true;
 
   try{
     await saveBookingToAgenda();
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(makeMessage())}`,'_blank');
   }catch(err){
-    console.error('Erro ao guardar agendamento',err);
-    alert('Não foi possível guardar o agendamento na agenda. Tente novamente.');
-    e.target.dataset.sending='';
-    if(submit)submit.disabled=false;
+    console.error(err);
+    if(err && (err.code==='date_unavailable' || err.code==='time_unavailable')){
+      await loadAvailability();
+      alert('Essa data ou hora acabou de ficar indisponível. Escolha outra.');
+    }else{
+      alert('Não foi possível guardar o agendamento na agenda. Tente novamente.');
+    }
+    if(submitButton)submitButton.disabled=false;
+    return;
   }
+
+  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(makeMessage())}`,'_blank');
+  if(submitButton)submitButton.disabled=false;
 });
 document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)closeModal(m.id)}));
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAll()});
@@ -1931,11 +1959,11 @@ document.addEventListener('visibilitychange',()=>{
 setInterval(()=>{
   if(!document.hidden)loadAvailability();
 },2000);
-
-setInterval(()=>{
-  const modal=document.getElementById('adminModal');
-  if(!document.hidden && adminUnlocked && modal && modal.classList.contains('open'))loadAdminAgenda();
-},12000);
+</script>
+<script>
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+}
 </script>
 </body>
 </html>
