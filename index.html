@@ -419,20 +419,29 @@ input:focus,select:focus,textarea:focus{border-color:var(--red)}
 }
 
 
-/* Agenda privada do administrador */
-.admin-agenda-wrap{margin-top:20px;padding-top:18px;border-top:1px solid #2b2b30}
-.admin-agenda-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+/* Administrador e agenda privada */
+.admin-agenda-wrap{margin-top:20px;padding-top:18px;border-top:1px solid #303036}
+.admin-agenda-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
 .admin-agenda-head h3{margin:0}
-.admin-agenda-refresh{width:auto!important;min-height:38px!important;padding:0 12px!important}
-.admin-bookings-list{display:grid;gap:9px;margin-top:12px;max-height:360px;overflow:auto;padding-right:3px}
-.admin-booking-card{border:1px solid #303036;background:#111114;border-radius:10px;padding:11px}
-.admin-booking-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
-.admin-booking-top strong{font-size:14px}
-.admin-booking-date{font-size:12px;font-weight:900;color:#ff696d;white-space:nowrap}
-.admin-booking-meta{display:grid;gap:3px;margin-top:7px;color:#c7c7cc;font-size:11px}
-#adminTopButton{color:#ff696d}
+.admin-agenda-refresh{min-height:34px;border:1px solid #414148;background:#17171b;color:#fff;border-radius:8px;padding:0 10px;font-size:11px;font-weight:900}
+.admin-bookings{display:grid;gap:9px}
+.admin-booking{border:1px solid #303036;background:#111114;border-radius:10px;padding:11px}
+.admin-booking-main{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:start}
+.admin-booking strong{display:block;font-size:14px}
+.admin-booking .when{color:#ff6d72;font-size:12px;font-weight:900;margin-top:4px}
+.admin-booking small{display:block;color:#b7b7bd;margin-top:4px;line-height:1.4}
+.admin-booking button{min-height:34px;border:1px solid rgba(239,23,29,.5);background:rgba(239,23,29,.1);color:#fff;border-radius:8px;padding:0 10px;font-size:11px;font-weight:900}
+#adminTopButton{color:#ff3037}
 
 </style>
+
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
+<meta name="theme-color" content="#0b0b0d">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
 </head>
 <body>
 
@@ -447,7 +456,6 @@ input:focus,select:focus,textarea:focus{border-color:var(--red)}
         <button type="button" onclick="goHome()">Início</button>
         <button type="button" onclick="openModal('aboutModal')">Sobre</button>
         <button type="button" onclick="openModal('servicesModal')">Serviços</button>
-        <button id="adminTopButton" type="button" onclick="openAdminPanel()" style="display:none">Administrador</button>
         <a href="https://wa.me/351924377481?text=Ol%C3%A1%21%20Gostaria%20de%20esclarecer%20uma%20d%C3%BAvida%20sobre%20os%20servi%C3%A7os%20da%20Magrinhos%20Barber%20Shop." target="_blank" rel="noopener">Contacto</a>
       </nav>
 
@@ -727,10 +735,9 @@ input:focus,select:focus,textarea:focus{border-color:var(--red)}
       <div class="admin-list-wrap admin-agenda-wrap">
         <div class="admin-agenda-head">
           <h3>Agenda de clientes</h3>
-          <button class="admin-secondary admin-agenda-refresh" type="button" onclick="loadAdminBookings()">Atualizar agenda</button>
+          <button class="admin-agenda-refresh" type="button" onclick="loadAdminBookings()">Atualizar</button>
         </div>
-        <div class="admin-hour-legend">Aqui aparecem os clientes que carregaram em enviar agendamento.</div>
-        <div id="adminBookings" class="admin-bookings-list">
+        <div id="adminBookings" class="admin-bookings">
           <div class="admin-empty">A carregar agenda...</div>
         </div>
       </div>
@@ -757,8 +764,6 @@ input:focus,select:focus,textarea:focus{border-color:var(--red)}
 const MODALS=['menuModal','aboutModal','servicesModal','worksModal','bookingModal','adminModal','contactModal'];
 const WHATSAPP_NUMBER='351924377481';
 const AVAILABILITY_API='https://iotnbkcifxswoicgjhew.supabase.co/functions/v1/barber-availability';
-const BOOKINGS_API='https://iotnbkcifxswoicgjhew.supabase.co/functions/v1/barber-bookings';
-const BARBER_ADMIN_STORAGE_KEY='magrinhos_barber_admin_code';
 let adminAccessCode='';
 
 function closeAll(){
@@ -788,6 +793,7 @@ let adminTimeRanges=[];
 let blockedDateTimeRanges=[];
 let adminDateTimeRanges=[];
 let adminHourWorkingSlots=new Set();
+let adminBookings=[];
 let adminUnlocked=false;
 
 async function sha256Text(value){
@@ -800,59 +806,52 @@ async function initAdminAccess(){
   adminUnlocked=false;
   adminAccessCode='';
   document.title='magrinhos-barber-shop';
-
-  let code='';
   const match=location.hash.match(/^#admin=(.+)$/);
-
   if(match){
-    try{code=decodeURIComponent(match[1]);}catch(e){code='';}
-    if(code && await sha256Text(code)===ADMIN_ACCESS_HASH){
-      localStorage.setItem(BARBER_ADMIN_STORAGE_KEY,code);
-      const u=new URL(location.href);
-      u.hash='';
-      u.searchParams.set('adminmode','1');
-      history.replaceState(null,'',u.pathname+u.search);
-    }else code='';
-  }else{
-    code=localStorage.getItem(BARBER_ADMIN_STORAGE_KEY)||'';
-    if(!code || await sha256Text(code)!==ADMIN_ACCESS_HASH)code='';
+    try{
+      const code=decodeURIComponent(match[1]);
+      if(await sha256Text(code)===ADMIN_ACCESS_HASH){
+        adminUnlocked=true;
+        adminAccessCode=code;
+        document.title='magrinhos-barber-shop administrador';
+      }
+    }catch(e){}
   }
-
-  if(code){
-    adminUnlocked=true;
-    adminAccessCode=code;
-    document.title='magrinhos-barber-shop administrador';
-    const u=new URL(location.href);
-    if(u.searchParams.get('adminmode')!=='1'){
-      u.searchParams.set('adminmode','1');
-      history.replaceState(null,'',u.pathname+u.search);
-    }
-  }
-
   updateAdminVisibility();
 }
 
 function updateAdminVisibility(){
-  let btn=document.getElementById('adminMenuButton');
-  const topBtn=document.getElementById('adminTopButton');
-
-  if(topBtn)topBtn.style.display=adminUnlocked?'':'none';
+  let menuBtn=document.getElementById('adminMenuButton');
+  let topBtn=document.getElementById('adminTopButton');
 
   if(!adminUnlocked){
-    if(btn)btn.remove();
+    if(menuBtn)menuBtn.remove();
+    if(topBtn)topBtn.remove();
     return;
   }
 
-  if(!btn){
+  if(!menuBtn){
     const menuList=document.querySelector('#menuModal .menu-list');
-    if(!menuList)return;
+    if(menuList){
+      menuBtn=document.createElement('button');
+      menuBtn.type='button';
+      menuBtn.id='adminMenuButton';
+      menuBtn.textContent='Administrador';
+      menuBtn.addEventListener('click',openAdminPanel);
+      menuList.appendChild(menuBtn);
+    }
+  }
 
-    btn=document.createElement('button');
-    btn.type='button';
-    btn.id='adminMenuButton';
-    btn.textContent='Administrador';
-    btn.addEventListener('click',openAdminPanel);
-    menuList.appendChild(btn);
+  if(!topBtn){
+    const topNav=document.querySelector('nav.nav');
+    if(topNav){
+      topBtn=document.createElement('button');
+      topBtn.type='button';
+      topBtn.id='adminTopButton';
+      topBtn.textContent='Administrador';
+      topBtn.addEventListener('click',openAdminPanel);
+      topNav.appendChild(topBtn);
+    }
   }
 }
 
@@ -1437,9 +1436,9 @@ function openAdminPanel(){
   if(from && !from.value)from.value=today;
   if(to && !to.value)to.value=from?from.value:today;
   adminLoadHourRange();
-  loadAdminBookings();
 
   openModal('adminModal');
+  loadAdminBookings();
 }
 
 function renderAdminDates(){
@@ -1737,10 +1736,32 @@ function adminLogout(){
 }
 
 
-function escapeHtml(value){
+function escapeAdminHtml(value){
   return String(value??'').replace(/[&<>"']/g,ch=>({
     '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
-  }[ch]));
+  })[ch]);
+}
+
+async function saveClientBooking(){
+  const payload={
+    name:document.getElementById('name').value.trim(),
+    contact:document.getElementById('contact').value.trim(),
+    service:document.getElementById('service').value,
+    date:document.getElementById('date').value,
+    time:document.getElementById('time').value
+  };
+
+  const res=await fetch(AVAILABILITY_API+'?action=booking',{
+    method:'POST',
+    mode:'cors',
+    credentials:'omit',
+    cache:'no-store',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(payload)
+  });
+
+  if(!res.ok)throw new Error('booking save failed');
+  return res.json();
 }
 
 async function loadAdminBookings(){
@@ -1750,68 +1771,62 @@ async function loadAdminBookings(){
   box.innerHTML='<div class="admin-empty">A carregar agenda...</div>';
 
   try{
-    const res=await fetch(BOOKINGS_API+'?v='+Date.now(),{
+    const res=await fetch(AVAILABILITY_API+'?action=bookings&v='+Date.now(),{
       cache:'no-store',
       mode:'cors',
       credentials:'omit',
       headers:{'x-admin-code':adminAccessCode}
     });
-    if(!res.ok)throw new Error('Não foi possível carregar a agenda.');
+    if(!res.ok)throw new Error('agenda unavailable');
     const data=await res.json();
-    const bookings=Array.isArray(data.bookings)?data.bookings:[];
+    adminBookings=Array.isArray(data.bookings)?data.bookings:[];
 
-    if(!bookings.length){
-      box.innerHTML='<div class="admin-empty">Ainda não existem agendamentos enviados.</div>';
+    if(!adminBookings.length){
+      box.innerHTML='<div class="admin-empty">Ainda não existem agendamentos de clientes.</div>';
       return;
     }
 
-    box.innerHTML=bookings.map(b=>{
-      const date=b.booking_date?formatDatePT(String(b.booking_date)):'A combinar';
-      const time=b.booking_time?String(b.booking_time).slice(0,5):'Sem preferência';
-      const name=escapeHtml(b.customer_name||'Cliente');
-      const service=escapeHtml(b.service||'');
-      const contact=escapeHtml(b.contact||'');
-      return `<div class="admin-booking-card">
-        <div class="admin-booking-top">
-          <strong>${name}</strong>
-          <span class="admin-booking-date">${date} · ${time}</span>
-        </div>
-        <div class="admin-booking-meta">
-          ${service?`<span>Serviço: ${service}</span>`:''}
-          ${contact?`<span>Contacto: ${contact}</span>`:''}
+    box.innerHTML=adminBookings.map(b=>{
+      const date=b.date?formatDatePT(b.date):'A combinar';
+      const time=b.time||'Sem preferência';
+      return `<div class="admin-booking">
+        <div class="admin-booking-main">
+          <div>
+            <strong>${escapeAdminHtml(b.name)}</strong>
+            <div class="when">${escapeAdminHtml(date)} · ${escapeAdminHtml(time)}</div>
+            ${b.service?`<small>Serviço: ${escapeAdminHtml(b.service)}</small>`:''}
+            ${b.contact?`<small>Contacto: ${escapeAdminHtml(b.contact)}</small>`:''}
+          </div>
+          <button type="button" onclick="deleteAdminBooking(${Number(b.id)})">Eliminar</button>
         </div>
       </div>`;
     }).join('');
   }catch(e){
-    console.error('Erro agenda Barber',e);
-    box.innerHTML='<div class="admin-empty">Não foi possível carregar a agenda. Tente novamente.</div>';
+    box.innerHTML='<div class="admin-empty">Não foi possível carregar a agenda.</div>';
   }
 }
 
-async function saveBookingToAgenda(){
-  const payload={
-    name:document.getElementById('name').value.trim(),
-    contact:document.getElementById('contact').value.trim(),
-    service:document.getElementById('service').value,
-    date:document.getElementById('date').value||'',
-    time:document.getElementById('time').value||'',
-    home:document.getElementById('home').value,
-    location:document.getElementById('location').value.trim(),
-    notes:document.getElementById('notes').value.trim()
-  };
+async function deleteAdminBooking(id){
+  if(!adminUnlocked || !adminAccessCode)return;
+  if(!confirm('Eliminar este agendamento da agenda?'))return;
 
-  const res=await fetch(BOOKINGS_API,{
-    method:'POST',
-    mode:'cors',
-    credentials:'omit',
-    cache:'no-store',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify(payload)
-  });
-
-  if(res.status===409)throw new Error('slot_unavailable');
-  if(!res.ok)throw new Error('booking_save_failed');
-  return true;
+  try{
+    const res=await fetch(AVAILABILITY_API+'?action=delete-booking',{
+      method:'POST',
+      mode:'cors',
+      credentials:'omit',
+      cache:'no-store',
+      headers:{
+        'Content-Type':'application/json',
+        'x-admin-code':adminAccessCode
+      },
+      body:JSON.stringify({id})
+    });
+    if(!res.ok)throw new Error('delete failed');
+    await loadAdminBookings();
+  }catch(e){
+    alert('Não foi possível eliminar o agendamento. Tente novamente.');
+  }
 }
 
 function formatDatePT(value){
@@ -1839,31 +1854,23 @@ document.getElementById('bookingForm').addEventListener('submit',async e=>{
   e.preventDefault();
   if(!e.target.reportValidity())return;
 
-  const submitBtn=e.target.querySelector('button[type="submit"]');
-  if(submitBtn)submitBtn.disabled=true;
+  const synced=await loadAvailability();
+  if(!synced){
+    alert('Não foi possível confirmar a disponibilidade. Tente novamente dentro de instantes.');
+    return;
+  }
+
+  if(!checkSelectedDate())return;
+  if(!checkSelectedTime())return;
 
   try{
-    const synced=await loadAvailability();
-    if(!synced){
-      alert('Não foi possível confirmar a disponibilidade. Tente novamente dentro de instantes.');
-      return;
-    }
-
-    if(!checkSelectedDate())return;
-    if(!checkSelectedTime())return;
-
-    await saveBookingToAgenda();
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(makeMessage())}`,'_blank');
-  }catch(err){
-    if(err && err.message==='slot_unavailable'){
-      alert('Essa data ou hora acabou de ficar indisponível. Escolha outra.');
-      await loadAvailability();
-    }else{
-      alert('Não foi possível guardar o agendamento na agenda. Tente novamente.');
-    }
-  }finally{
-    if(submitBtn)submitBtn.disabled=false;
+    await saveClientBooking();
+  }catch(e){
+    alert('Não foi possível guardar o agendamento na agenda. Tente novamente dentro de instantes.');
+    return;
   }
+
+  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(makeMessage())}`,'_blank');
 });
 document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)closeModal(m.id)}));
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAll()});
