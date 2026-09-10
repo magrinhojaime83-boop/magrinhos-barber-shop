@@ -1,11 +1,12 @@
 {
   "name": "Magrinhos Barber Shop",
   "short_name": "Magrinhos Barber",
+  "id": "/",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
-  "background_color": "#050505",
-  "theme_color": "#e31925",
+  "background_color": "#09090b",
+  "theme_color": "#d1070d",
   "icons": [
     {
       "src": "icon-192.png",
