@@ -12,15 +12,6 @@
 <link rel="canonical" href="https://magrinhosbarbershop.vercel.app/">
 <meta name="description" content="Magrinhos Barber Shop em Lagos, Algarve. Cortes masculinos, barba, corte + barba e serviço ao domicílio em Lagos e arredores, mediante confirmação.">
 <meta name="theme-color" content="#050505">
-
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
-<link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
-<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-<meta name="application-name" content="Magrinhos Barber Shop">
-<meta name="apple-mobile-web-app-title" content="Magrinhos Barber Shop">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="mobile-web-app-capable" content="yes">
 <style>
 :root{--bg:#050505;--panel:#101012;--line:#303034;--red:#ef171d;--red2:#ff3037;--white:#fff;--muted:#c7c7ca;--green:#21d366}
 *{box-sizing:border-box}
@@ -428,29 +419,13 @@ input:focus,select:focus,textarea:focus{border-color:var(--red)}
 }
 
 
-/* Administração privada: visível apenas no link privado */
-.nav .admin-nav-private{
-  color:#fff;border-bottom:2px solid var(--red);padding-bottom:3px
-}
-.nav .admin-nav-private:hover{color:#ff7a7e}
-.admin-agenda-toolbar{display:flex;justify-content:flex-end;margin:8px 0 12px}
-.admin-agenda-toolbar button{min-height:38px;border:1px solid #34343a;background:#151518;color:#fff;border-radius:8px;padding:0 12px;font-weight:900}
-.admin-booking-list{display:grid;gap:10px}
-.admin-booking-card{border:1px solid #34343a;background:#121214;border-radius:12px;padding:12px;display:grid;gap:9px}
-.admin-booking-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
-.admin-booking-when{display:grid;gap:2px}
-.admin-booking-when strong{font-size:15px;color:#fff}
-.admin-booking-when small{font-size:12px;color:#ff8a8e;font-weight:900}
-.admin-booking-name{font-size:16px;font-weight:900}
-.admin-booking-details{display:grid;grid-template-columns:1fr 1fr;gap:7px;font-size:12px;color:#c7c7ca}
-.admin-booking-details span{border:1px solid #2b2b30;background:#0d0d0f;border-radius:8px;padding:8px}
-.admin-booking-notes{font-size:12px;color:#bbbcc1;line-height:1.45}
-.admin-booking-delete{min-height:36px;border:1px solid #711f24;background:#260d10;color:#ff777c;border-radius:8px;padding:0 11px;font-weight:900}
-@media(max-width:620px){
-  .admin-booking-details{grid-template-columns:1fr}
-}
+.admin-bookings-wrap{margin-top:18px;padding-top:18px;border-top:1px solid #2b2b30}.admin-bookings-list{display:grid;gap:9px;margin-top:10px}.admin-booking-card{border:1px solid #303036;border-left:4px solid #ef171d;background:#111114;border-radius:10px;padding:12px}.admin-booking-top{display:flex;justify-content:space-between;gap:10px}.admin-booking-when{color:#ff777a;font-size:12px;font-weight:1000}.admin-booking-meta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 12px;margin-top:9px;color:#d4d4d8;font-size:12px}.admin-booking-notes{margin-top:8px;color:#aaaab0;font-size:12px;line-height:1.45;white-space:pre-wrap}.admin-booking-delete{margin-top:10px;min-height:34px;border:1px solid rgba(239,23,29,.55);background:rgba(239,23,29,.10);color:#fff;border-radius:8px;padding:0 10px;font-weight:900}@media(max-width:620px){.admin-booking-meta{grid-template-columns:1fr}.admin-booking-top{display:block}.admin-booking-when{display:block;margin-top:4px}}
 
 </style>
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#070708">
 </head>
 <body>
 
@@ -687,16 +662,6 @@ input:focus,select:focus,textarea:focus{border-color:var(--red)}
         Ao bloquear ou desbloquear um período, a alteração é guardada automaticamente e fica disponível para <strong>todos os clientes</strong>. Não é necessário atualizar ficheiros no GitHub.
       </div>
 
-      <div class="admin-list-wrap">
-        <h3>Agenda de agendamentos</h3>
-        <div class="admin-agenda-toolbar">
-          <button type="button" onclick="loadAdminBookings(true)">Atualizar agenda</button>
-        </div>
-        <div id="adminBookings" class="admin-booking-list">
-          <div class="admin-empty">A carregar agendamentos...</div>
-        </div>
-      </div>
-
       <div class="admin-date-tools">
         <div class="field">
           <label>Bloquear de</label>
@@ -750,6 +715,12 @@ input:focus,select:focus,textarea:focus{border-color:var(--red)}
         </div>
       </div>
 
+
+      <div class="admin-list-wrap admin-bookings-wrap">
+        <h3>Agenda de agendamentos</h3>
+        <div class="admin-hour-legend">Pedidos enviados pelos clientes com nome, data e hora. Pode eliminar cada agendamento.</div>
+        <div id="adminBookings" class="admin-bookings-list"><div class="admin-empty">A carregar agenda...</div></div>
+      </div>
       <div class="admin-actions">
         <button class="admin-secondary" type="button" onclick="reloadAvailability()">Recarregar lista</button>
         <button class="admin-secondary" type="button" onclick="adminLogout()">Voltar ao site</button>
@@ -772,8 +743,8 @@ input:focus,select:focus,textarea:focus{border-color:var(--red)}
 const MODALS=['menuModal','aboutModal','servicesModal','worksModal','bookingModal','adminModal','contactModal'];
 const WHATSAPP_NUMBER='351924377481';
 const AVAILABILITY_API='https://iotnbkcifxswoicgjhew.supabase.co/functions/v1/barber-availability';
+const BOOKINGS_API='https://iotnbkcifxswoicgjhew.supabase.co/functions/v1/barber-bookings';
 let adminAccessCode='';
-let adminBookings=[];
 
 function closeAll(){
   MODALS.forEach(id=>{const e=document.getElementById(id);if(e){e.classList.remove('open');e.setAttribute('aria-hidden','true')}});
@@ -829,38 +800,23 @@ async function initAdminAccess(){
 }
 
 function updateAdminVisibility(){
-  let menuBtn=document.getElementById('adminMenuButton');
-  let navBtn=document.getElementById('adminDesktopButton');
+  let btn=document.getElementById('adminMenuButton');
 
   if(!adminUnlocked){
-    if(menuBtn)menuBtn.remove();
-    if(navBtn)navBtn.remove();
+    if(btn)btn.remove();
     return;
   }
 
-  if(!menuBtn){
+  if(!btn){
     const menuList=document.querySelector('#menuModal .menu-list');
-    if(menuList){
-      menuBtn=document.createElement('button');
-      menuBtn.type='button';
-      menuBtn.id='adminMenuButton';
-      menuBtn.textContent='Administrador';
-      menuBtn.addEventListener('click',openAdminPanel);
-      menuList.appendChild(menuBtn);
-    }
-  }
+    if(!menuList)return;
 
-  if(!navBtn){
-    const desktopNav=document.querySelector('.topbar .nav');
-    if(desktopNav){
-      navBtn=document.createElement('button');
-      navBtn.type='button';
-      navBtn.id='adminDesktopButton';
-      navBtn.className='admin-nav-private';
-      navBtn.textContent='Administrador';
-      navBtn.addEventListener('click',openAdminPanel);
-      desktopNav.appendChild(navBtn);
-    }
+    btn=document.createElement('button');
+    btn.type='button';
+    btn.id='adminMenuButton';
+    btn.textContent='Administrador da Web';
+    btn.addEventListener('click',openAdminPanel);
+    menuList.appendChild(btn);
   }
 }
 
@@ -1430,6 +1386,49 @@ function checkSelectedDate(){
   return true;
 }
 
+
+function esc(value){return String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+
+async function saveBarberBooking(){
+  const payload={
+    name:document.getElementById('name').value.trim(),contact:document.getElementById('contact').value.trim(),service:document.getElementById('service').value,
+    bookingDate:document.getElementById('date').value,bookingTime:document.getElementById('time').value,
+    homeService:document.getElementById('home').value,locality:document.getElementById('location').value.trim(),notes:document.getElementById('notes').value.trim()
+  };
+  try{
+    const res=await fetch(BOOKINGS_API,{method:'POST',mode:'cors',credentials:'omit',cache:'no-store',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    if(!res.ok)throw new Error('booking save failed');return true;
+  }catch(e){console.error(e);alert('Não foi possível guardar o agendamento na agenda. Tente novamente.');return false;}
+}
+
+async function loadAdminBookings(){
+  const box=document.getElementById('adminBookings');if(!box||!adminUnlocked||!adminAccessCode)return;
+  box.innerHTML='<div class="admin-empty">A carregar agenda...</div>';
+  try{
+    const res=await fetch(BOOKINGS_API+'?v='+Date.now(),{cache:'no-store',mode:'cors',credentials:'omit',headers:{'x-admin-code':adminAccessCode}});
+    if(!res.ok)throw new Error('bookings unavailable');const data=await res.json();renderAdminBookings(Array.isArray(data.bookings)?data.bookings:[]);
+  }catch(e){console.error(e);box.innerHTML='<div class="admin-empty">Não foi possível carregar a agenda.</div>';}
+}
+
+function renderAdminBookings(items){
+  const box=document.getElementById('adminBookings');if(!box)return;
+  if(!items.length){box.innerHTML='<div class="admin-empty">Ainda não existem agendamentos enviados.</div>';return;}
+  box.innerHTML=items.map(b=>`<div class="admin-booking-card">
+    <div class="admin-booking-top"><strong>${esc(b.name)}</strong><span class="admin-booking-when">${formatDateLabel(String(b.booking_date))} · ${esc(String(b.booking_time||'').slice(0,5))}</span></div>
+    <div class="admin-booking-meta"><span><b>Serviço:</b> ${esc(b.service)}</span><span><b>Contacto:</b> ${esc(b.contact)}</span><span><b>Domicílio:</b> ${esc(b.home_service||'—')}</span><span><b>Zona:</b> ${esc(b.locality||'—')}</span></div>
+    ${b.notes?`<div class="admin-booking-notes"><b>Observações:</b> ${esc(b.notes)}</div>`:''}
+    <button class="admin-booking-delete" type="button" onclick="deleteAdminBooking(${Number(b.id)})">Eliminar agendamento</button>
+  </div>`).join('');
+}
+
+async function deleteAdminBooking(id){
+  if(!confirm('Eliminar este agendamento da agenda?'))return;
+  try{
+    const res=await fetch(BOOKINGS_API+'?id='+encodeURIComponent(id),{method:'DELETE',mode:'cors',credentials:'omit',cache:'no-store',headers:{'x-admin-code':adminAccessCode}});
+    if(!res.ok)throw new Error('delete failed');await loadAdminBookings();
+  }catch(e){console.error(e);alert('Não foi possível eliminar o agendamento.');}
+}
+
 function openAdminPanel(){
   if(!adminUnlocked)return;
   adminDates=[...blockedDates];
@@ -1734,123 +1733,9 @@ async function adminUnblockRange(from,to){
   }
 }
 
-
-function escapeAdminHtml(value){
-  return String(value??'').replace(/[&<>"']/g,ch=>({
-    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
-  }[ch]));
-}
-
-function renderAdminBookings(){
-  const box=document.getElementById('adminBookings');
-  if(!box)return;
-
-  if(!adminBookings.length){
-    box.innerHTML='<div class="admin-empty">Ainda não existem agendamentos enviados.</div>';
-    return;
-  }
-
-  box.innerHTML=adminBookings.map(b=>{
-    const date=b.date?formatDatePT(b.date):'A combinar';
-    const time=b.time||'Sem preferência';
-    const details=[
-      b.service?`<span><strong>Serviço:</strong> ${escapeAdminHtml(b.service)}</span>`:'',
-      b.contact?`<span><strong>Contacto:</strong> ${escapeAdminHtml(b.contact)}</span>`:'',
-      b.homeService?`<span><strong>Domicílio:</strong> ${escapeAdminHtml(b.homeService)}</span>`:'',
-      b.location?`<span><strong>Local:</strong> ${escapeAdminHtml(b.location)}</span>`:''
-    ].filter(Boolean).join('');
-    const notes=b.notes?`<div class="admin-booking-notes"><strong>Observações:</strong> ${escapeAdminHtml(b.notes)}</div>`:'';
-
-    return `<div class="admin-booking-card">
-      <div class="admin-booking-top">
-        <div class="admin-booking-when">
-          <strong>${escapeAdminHtml(date)} · ${escapeAdminHtml(time)}</strong>
-          <small>Agendamento enviado</small>
-        </div>
-        <button class="admin-booking-delete" type="button" onclick="deleteAdminBooking(${Number(b.id)})">Eliminar</button>
-      </div>
-      <div class="admin-booking-name">${escapeAdminHtml(b.name||'Sem nome')}</div>
-      <div class="admin-booking-details">${details}</div>
-      ${notes}
-    </div>`;
-  }).join('');
-}
-
-async function loadAdminBookings(showMessage=false){
-  if(!adminUnlocked || !adminAccessCode)return false;
-  const box=document.getElementById('adminBookings');
-  if(box)box.innerHTML='<div class="admin-empty">A carregar agendamentos...</div>';
-
-  try{
-    const res=await fetch(AVAILABILITY_API+'?action=bookings&v='+Date.now(),{
-      cache:'no-store',
-      mode:'cors',
-      credentials:'omit',
-      headers:{'x-admin-code':adminAccessCode}
-    });
-    if(!res.ok)throw new Error('Não foi possível carregar a agenda.');
-    const data=await res.json();
-    adminBookings=Array.isArray(data.bookings)?data.bookings:[];
-    renderAdminBookings();
-    if(showMessage)alert('Agenda atualizada.');
-    return true;
-  }catch(e){
-    console.error(e);
-    if(box)box.innerHTML='<div class="admin-empty">Não foi possível carregar a agenda.</div>';
-    if(showMessage)alert('Não foi possível atualizar a agenda.');
-    return false;
-  }
-}
-
-async function deleteAdminBooking(id){
-  if(!adminUnlocked || !adminAccessCode)return;
-  if(!confirm('Eliminar este agendamento da agenda?'))return;
-
-  try{
-    const res=await fetch(AVAILABILITY_API+'?action=delete-booking',{
-      method:'POST',
-      mode:'cors',
-      credentials:'omit',
-      cache:'no-store',
-      headers:{'Content-Type':'application/json','x-admin-code':adminAccessCode},
-      body:JSON.stringify({id})
-    });
-    if(!res.ok)throw new Error('Não foi possível eliminar.');
-    await loadAdminBookings();
-  }catch(e){
-    console.error(e);
-    alert('Não foi possível eliminar este agendamento.');
-  }
-}
-
-async function saveClientBooking(){
-  const payload={
-    name:document.getElementById('name').value.trim(),
-    contact:document.getElementById('contact').value.trim(),
-    service:document.getElementById('service').value,
-    date:document.getElementById('date').value,
-    time:document.getElementById('time').value,
-    homeService:document.getElementById('home').value,
-    location:document.getElementById('location').value.trim(),
-    notes:document.getElementById('notes').value.trim()
-  };
-
-  const res=await fetch(AVAILABILITY_API+'?action=booking',{
-    method:'POST',
-    mode:'cors',
-    credentials:'omit',
-    cache:'no-store',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify(payload)
-  });
-  if(!res.ok)throw new Error('Não foi possível guardar o agendamento.');
-  return true;
-}
-
 async function reloadAvailability(){
   await loadAvailability();
-  if(adminUnlocked)await loadAdminBookings();
-  alert('Disponibilidade e agenda recarregadas.');
+  alert('Lista recarregada a partir do site.');
 }
 
 function adminLogout(){
@@ -1891,14 +1776,7 @@ document.getElementById('bookingForm').addEventListener('submit',async e=>{
 
   if(!checkSelectedDate())return;
   if(!checkSelectedTime())return;
-
-  try{
-    await saveClientBooking();
-  }catch(err){
-    console.error(err);
-    alert('Não foi possível guardar o agendamento na agenda. Tente novamente dentro de instantes.');
-    return;
-  }
+  if(!await saveBarberBooking())return;
 
   window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(makeMessage())}`,'_blank');
 });
@@ -1917,6 +1795,19 @@ document.addEventListener('click',e=>{
     picker.style.display='none';
   }
 });
+
+document.addEventListener('click',e=>{
+  if(!adminUnlocked)return;
+  const a=e.target.closest('a[href^="#"]');
+  if(!a)return;
+  const selector=a.getAttribute('href');
+  if(!selector || selector==='#' || selector.startsWith('#admin='))return;
+  const target=document.querySelector(selector);
+  if(!target)return;
+  e.preventDefault();
+  target.scrollIntoView({behavior:'smooth'});
+});
+
 initAdminAccess();
 loadAvailability();
 
