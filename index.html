@@ -1815,5 +1815,22 @@ setInterval(()=>{
   if(!document.hidden && adminUnlocked)loadAdminBookings();
 },5000);
 </script>
+<script>
+  if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+            navigator.serviceWorker.register('/sw.js')
+                  .then(function (registration) {
+                            console.log('Service Worker registado:', registration.scope);
+                  })
+                        .catch(function (error) {
+                                  console.error('Erro ao registar Service Worker:', error);
+                        });
+                      });
+                    }
+                  </script>
+                        })
+                  })
+      })
+  }
 </body>
 </html>
